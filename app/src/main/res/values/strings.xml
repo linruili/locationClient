@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">LocationClient</string>
+    <string name="video_button">Video Record Button</string>
+</resources>
