@@ -57,9 +57,12 @@ import java.util.List;
 
 public class CameraActivity extends AppCompatActivity
 {
-    private static final int CLIENT_PORT = 10003;
+    private static final int CLIENT_PORT = 9132;
     private static final int REQUEST_CAMERA_PERMISSION_RESULT = 0;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION_RESULT = 1;
+    private static final int TCP_CONNECT = 0;
+    private static final int TCP_SEND = 1;
+    private static final int TCP_DISCONNECT = 2;
     private SensorUtils sensorUtils;
     private TCPUtils tcpUtils;
     private double compass;
@@ -98,7 +101,15 @@ public class CameraActivity extends AppCompatActivity
                 compass = sensorUtils.getCompassDirection();
                 Log.d("MainActivity", "value[0] = " + compass);
 
-                mBackgroundHandler.post(new BitmapTransfer(bmp, compass));
+//                try
+//                {
+//                    Thread.sleep(300);
+//                } catch (InterruptedException e)
+//                {
+//                    e.printStackTrace();
+//                }
+
+                mBackgroundHandler.post(new BitmapTransfer(TCP_SEND, bmp, compass));
             }
         }
     };
@@ -156,8 +167,14 @@ public class CameraActivity extends AppCompatActivity
     {
         private Bitmap mBitmap;
         private double mCompass;
-        public BitmapTransfer(Bitmap bitmap, double compass)
+        private int mState;
+        public BitmapTransfer(int state)
         {
+            mState = state;
+        }
+        public BitmapTransfer(int state, Bitmap bitmap, double compass)
+        {
+            mState = state;
             mBitmap = bitmap;
             mCompass = compass;
         }
@@ -165,35 +182,50 @@ public class CameraActivity extends AppCompatActivity
         @Override
         public void run()
         {
-            try {
-                createImageFileName();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            switch (mState)
+            {
+                case TCP_CONNECT:
+                    tcpUtils = new TCPUtils(CLIENT_PORT);
+                    break;
 
-            FileOutputStream fileOutputStream = null;
-            try {
-                Log.d("MainActivity", "saving bitmap");
-                fileOutputStream = new FileOutputStream(mImageFileName);
-                mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+                case TCP_DISCONNECT:
+                    tcpUtils.send_fin();
+                    tcpUtils.disconnect();
+                    break;
 
-                tcpUtils.send_compass(mCompass);
-                tcpUtils.send_image(mBitmap);
-            } catch (IOException e) {
-                Log.d("MainActivity", "save image error");
-                e.printStackTrace();
-            } finally {
-                if(mBitmap != null)
-                    mBitmap.recycle();
-                if(fileOutputStream != null)
-                {
-                    try{
-                        fileOutputStream.close();
+                case TCP_SEND:
+                    try {
+                        createImageFileName();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
+
+                    FileOutputStream fileOutputStream = null;
+                    try {
+                        tcpUtils.send_image_compass(mBitmap, mCompass);
+                        Log.d("MainActivity", "saving bitmap");
+//                        fileOutputStream = new FileOutputStream(mImageFileName);
+//                        mBitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOutputStream);
+//                        Thread.sleep(10000);
+//                    } catch (IOException e) {
+//                        Log.d("MainActivity", "save image error");
+//                        e.printStackTrace();
+                    } finally {
+                        if(mBitmap != null)
+                            mBitmap.recycle();
+                        if(fileOutputStream != null)
+                        {
+                            try{
+                                fileOutputStream.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    break;
+                default:
             }
+
         }
     }
 
@@ -261,13 +293,16 @@ public class CameraActivity extends AppCompatActivity
                     mMediaRecorder.stop();
                     mMediaRecorder.reset();
                     startPreview();
+                    mBackgroundHandler.post(new BitmapTransfer(TCP_DISCONNECT));
                 } else
+                {
+                    mBackgroundHandler.post(new BitmapTransfer(TCP_CONNECT));
                     checkWriteStoragePermission();
+                }
 
             }
         });
         sensorUtils = SensorUtils.getInstance(this);
-        tcpUtils = new TCPUtils(CLIENT_PORT);
     }
 
     @Override
