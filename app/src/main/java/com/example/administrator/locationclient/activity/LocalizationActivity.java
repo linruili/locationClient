@@ -51,7 +51,7 @@ public class LocalizationActivity extends AppCompatActivity
         mapView.setOnRealLocationMoveListener(new OnRealLocationMoveListener() {
             @Override
             public void onMove(Position position) {
-                infoTxt.setText(position.toString());
+                infoTxt.setText("定位结果： " + position.toString());
             }
         });
     }

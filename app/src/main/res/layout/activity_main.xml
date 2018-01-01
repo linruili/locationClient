@@ -8,18 +8,37 @@
     android:orientation="vertical"
     tools:context="com.example.administrator.locationclient.activity.MainActivity">
 
-    <Button
-        android:id="@+id/indoor_location"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="indoor_location"
-        />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/location_result"
+        <TextView
+            android:id="@+id/position_text_view"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:text="adsfsdlkfjsdlkfjlsd"
+            />
+
+        <Button
+            android:id="@+id/indoor_location"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="室内定位"
+            />
+
+
+    </LinearLayout>
+
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="location_result"
+        android:layout_height="match_parent"
+        android:clickable="true"
         />
 
 </LinearLayout>
