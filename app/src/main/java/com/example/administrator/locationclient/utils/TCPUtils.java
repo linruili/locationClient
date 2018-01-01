@@ -3,9 +3,12 @@ package com.example.administrator.locationclient.utils;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -107,6 +110,43 @@ public class TCPUtils
         {
             e.printStackTrace();
         }
+    }
+
+    public String rec_result()
+    {
+        String response = "";
+        InputStream is = null;
+        InputStreamReader isr = null;
+        BufferedReader br = null;
+        if (socket == null)
+        {
+            Log.d("MainActivity", "socket is null");
+            return null;
+        }
+        try
+        {
+            is = socket.getInputStream();
+            isr = new InputStreamReader(is);
+            br = new BufferedReader(isr);
+            response = br.readLine();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }finally
+        {
+            try
+            {
+                br.close();
+                isr.close();
+                is.close();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+        return response;
+
     }
 
 

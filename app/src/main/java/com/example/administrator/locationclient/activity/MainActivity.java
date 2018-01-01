@@ -11,6 +11,7 @@ import com.example.administrator.locationclient.R;
 public class MainActivity extends AppCompatActivity
 {
     private Button btn_start_location;
+    private Button btn_location_result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,6 +28,20 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        btn_location_result = (Button)findViewById(R.id.location_result);
+        btn_location_result.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(MainActivity.this, LocalizationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
 
 
     }

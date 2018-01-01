@@ -2,6 +2,7 @@ package com.example.administrator.locationclient.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
@@ -190,7 +191,11 @@ public class CameraActivity extends AppCompatActivity
 
                 case TCP_DISCONNECT:
                     tcpUtils.send_fin();
+                    String result_string = tcpUtils.rec_result();
                     tcpUtils.disconnect();
+                    Intent intent = new Intent(CameraActivity.this, LocalizationActivity.class);
+                    intent.putExtra("data", result_string);
+                    startActivity(intent);
                     break;
 
                 case TCP_SEND:
