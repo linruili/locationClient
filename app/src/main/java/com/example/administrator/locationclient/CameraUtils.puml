@@ -1,0 +1,56 @@
+@startuml
+
+interface Runnable
+
+CameraManager o-- CameraDevice.stateCallback
+CameraDevice.stateCallback o-- CameraDevice
+
+
+CameraDevice o-- CameraCaptureSession.stateCallback
+CameraCaptureSession.stateCallback o-- CameraCaptureSession
+CameraCaptureSession.captureCallback --o CameraCaptureSession
+CameraCaptureSession o-- CaptureRequest
+
+CameraDevice *-- CaptureRequest.Builder
+CaptureRequest.Builder --* CaptureRequest
+CameraDevice o-- Surface
+Surface --o CaptureRequest
+
+Surface ..> SurfaceListener
+SurfaceListener ..> BitmapTransfer
+BitmapTransfer ..|> Runnable
+
+class CameraManager{
++open()
+}
+
+class CameraDevice{
++createCaptureSession()
++createCaptureRequest()
+}
+
+class CameraDevice.stateCallback{
++onOpened()
+}
+
+class CameraCaptureSession{
++capture()
++setRepeatingRequest()
+}
+
+class CameraCaptureSession.stateCallback{
++onConfigured()
+}
+
+class CameraCaptureSession.captureCallback{
++onCaptureStart()
++onCaptureProgressed()
++onCaptureCompleted()
+}
+
+class CaptureRequest{
++addTarget()
+}
+
+
+@enduml

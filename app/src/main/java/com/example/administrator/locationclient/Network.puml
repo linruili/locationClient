@@ -1,0 +1,39 @@
+@startuml
+
+
+TCPUtils ..> BasicTCP
+TCPUtils ..> BasicConvertion
+TCPUtils ..> ImageConvertion
+
+
+class TCPUtils {
++initTCP()
++requestPermission()
++sendMessage()
++recevResult()
+}
+
+class BasicConvertion{
++ByteArrayToInt()
++ByteArrayToDouble()
++ByteArrayToString()
++IntToByteArray()
++DoubleToByteArray()
++StringToByteArray()
+}
+
+class BasicTCP{
++connect()
++disconnect()
++sendByteArray()
++recevByteArray()
+}
+
+class ImageConvertion{
++ImageToByteArray()
++ByteArrayToImage()
+}
+
+
+
+@enduml

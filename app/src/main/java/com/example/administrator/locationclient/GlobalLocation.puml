@@ -1,0 +1,19 @@
+@startuml
+interface LocationListener
+
+GlobalLocationActivity ..> GlobalMapView
+GlobalLocationActivity ..> LocationClient
+AppCompatActivity <|-- GlobalLocationActivity
+
+GlobalLocationListener ..|> LocationListener
+LocationClient .> GlobalLocationListener
+
+class GlobalLocationActivity {
++initLocation()
++initView()
++requestPermission()
++navigateTo()
+}
+
+
+@enduml
