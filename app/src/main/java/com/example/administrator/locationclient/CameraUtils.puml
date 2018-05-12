@@ -20,11 +20,14 @@ Surface ..> SurfaceListener
 SurfaceListener ..> BitmapTransfer
 BitmapTransfer ..|> Runnable
 
+
+
 class CameraManager{
 +open()
 }
 
 class CameraDevice{
+
 +createCaptureSession()
 +createCaptureRequest()
 }

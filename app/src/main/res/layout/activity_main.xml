@@ -19,7 +19,7 @@
             android:layout_weight="2"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:text="adsfsdlkfjsdlkfjlsd"
+            android:text="adsfsdlkfjsdlkfjlsd\nsdf\nfgh"
             />
 
         <Button

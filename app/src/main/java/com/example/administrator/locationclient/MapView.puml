@@ -1,0 +1,58 @@
+@startuml
+
+
+View <|-- MapView
+MapView +- UpdateMyLocationRunnale
+UpdateMyLocationRunnale ..|> Runnable
+UpdateMyLocationRunnale ..> LocationSymbol
+LocationSymbol --|> BaseMapSymbol
+MapView ..> LocationSymbol
+BaseMapSymbol ..> OnMapSymbolListener
+MathUtil <. MapView
+MapView ..> MotionEvent
+Position <.. MapView
+Matrix <.. MapView
+Position <.. MathUtil
+
+interface Runnable
+abstract class BaseMapSymbol
+
+class MapView {
++init()
++onTouchEvent()
++onDraw()
++initNewMap()
++updateMyLocation()
+}
+
+class UpdateMyLocationRunnale{
++run()
+}
+
+class LocationSymbol{
++draw()
++setRangeCircle()
+}
+
+class MathUtil{
++midPoint()
++distance()
++angle()
++squareDistance()
++sum()
+}
+
+class MotionEvent{
++ ACTION_UP
++ ACTION_DOWN
++ACTION_POINTER_UP
++ACTION_POINTER_DOWN
++ACTION_MOVE
+
++getActionMasked()
++getPointerCount()
++getX()
++getY()
+}
+
+@enduml

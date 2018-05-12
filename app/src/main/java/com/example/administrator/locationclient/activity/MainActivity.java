@@ -176,11 +176,12 @@ public class MainActivity extends AppCompatActivity
             currentPosition.append(location.getCountry()).append(location.getProvince())
                     .append(location.getCity()).append(location.getDistrict())
                     .append(location.getStreet()).append("\n");
-            currentPosition.append("定位方式：");
-            if(location.getLocType() == BDLocation.TypeGpsLocation)
-                currentPosition.append("GPS");
-            else if(location.getLocType() == BDLocation.TypeNetWorkLocation)
-                currentPosition.append("network");
+//            currentPosition.append("定位方式：");
+//            if(location.getLocType() == BDLocation.TypeGpsLocation)
+//                currentPosition.append("GPS");
+//            else if(location.getLocType() == BDLocation.TypeNetWorkLocation)
+//                currentPosition.append("network");
+            currentPosition.append("所选场所：GOGO新天地");
             positionText.setText(currentPosition);
 
             if(location.getLocType()==BDLocation.TypeGpsLocation ||

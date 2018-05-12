@@ -8,10 +8,10 @@ TCPUtils ..> ImageConvertion
 
 class TCPUtils {
 +initTCP()
-+requestPermission()
-+sendMessage()
-+recevResult()
-+closeSocket()
++recv_images()
++recv_compass()
++send_result()
++close_socket()
 }
 
 class BasicConvertion{

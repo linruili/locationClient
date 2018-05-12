@@ -1,0 +1,62 @@
+@startuml
+
+
+
+FasterRcnnModel ..> RPNModel
+FasterRcnnModel ..> FastRcnnModel
+LandmarkCompassSelection ..> FasterRcnnModel
+LandmarkCompassSelection ..> KCFTracker
+LandmarkCompassSelection ..> CompassFilter
+
+
+class LandmarkCompassSelection {
++process()
++find_landmark_regions()
++run_RCNN_procedure()
++find_keyFrame_compass()
+}
+
+class CompassFilter{
++gaussian_filter()
++create_guassian_core()
+}
+
+class FasterRcnnModel{
++load_model()
++load_options()
++process()
++proposal_img_detect()
++boxes_filter()
++fast_rcnn_detect()
+}
+
+class RPNModel{
++load_data()
++process()
++reshape_input_blobs()
++get_anchors()
++get_pred_boxes()
++get_softmax_scores()
++get_box_deltas()
+}
+
+class FastRcnnModel{
++load_data()
++process()
++get_softmax_scores()
++get_box_deltas()
++clip_boxes()
+}
+
+class KCFTracker{
++init()
++update()
++detect()
++train()
++gaussian_correlation()
++create_gaussian_peak()
++get_features()
++create_HanningMats()
+}
+
+@enduml

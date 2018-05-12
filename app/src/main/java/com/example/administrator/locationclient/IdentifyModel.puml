@@ -1,0 +1,25 @@
+@startuml
+
+IdentifyModel ..> GoogLeNetModel
+IdentifyModel ..> FASTFeatureDetector
+
+class IdentifyModel{
++GoogLeNet_predict()
++FAST_predict()
++merge_predict()
+}
+
+class GoogLeNetModel{
++load_data()
++wrap_inputLayer()
++preprocess()
++predict()
+}
+
+class FASTFeatureDetector{
++create()
++setThreshold()
++detect()
+}
+
+@enduml

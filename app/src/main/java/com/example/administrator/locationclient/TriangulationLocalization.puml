@@ -1,0 +1,38 @@
+@startuml
+
+WeightedLocalization ..> Filter
+WeightedLocalization ..> TriangulationLocalization
+WeightedLocalization ..> Tools
+TriangulationLocalization .> Tools
+
+
+class WeightedLocalization{
++load_data()
++get_weight()
++get_traingulation_result()
+}
+
+class TriangulationLocalization{
++load_data()
++localization()
++find_noraml_vector()
+}
+
+
+class Tools{
++dot_product()
++norm()
++cross_point()
++point_distants()
++line_intersection_side()
++is_can_see()
+}
+
+class Filter{
++load_data()
++LCS()
++filter()
+}
+
+
+@enduml
